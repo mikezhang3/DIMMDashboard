@@ -1,0 +1,368 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<title>Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+ <!-- Bootstrap Core CSS -->
+<link href="/static/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<!-- Custom CSS -->
+<link href="/static/css/style.css" rel='stylesheet' type='text/css' />
+<!-- Graph CSS -->
+<link href="/static/css/font-awesome.css" rel="stylesheet"> 
+<!-- jQuery -->
+<!-- <link href='https://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'> -->
+<!-- lined-icons -->
+<link rel="stylesheet" href="/static/css/icon-font.min.css" type='text/css' />
+
+
+
+<link href="/static/css/charts/bootstrap-datetimepicker.css"  rel="stylesheet">
+
+<link href="/static/css/fabochart.css" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="/static/css/charts/charts.css" type="text/css">
+
+<!-- //lined-icons -->
+<script src="/static/js/jquery-1.10.2.min.js"></script>
+
+
+<script src="/static/js/fabochart.js"></script>  <!-- For fabochart -->
+
+<!--clock init-->
+<!-- <script src="/static/js/css3clock.js"></script> -->
+<!--Easy Pie Chart-->
+<!--skycons-icons-->
+<!-- <script src="/static/js/skycons.js"></script> -->
+
+
+<script src="/static/js/charts/Math.js"></script>
+<script src="/static/js/charts/CountDown.min.js"></script>
+
+<!--//skycons-icons-->
+</head> 
+<body>
+   <div class="page-container">
+   <!--/content-inner-->
+	<div class="left-content">
+	   <div class="inner-content">
+		<!-- header-starts -->
+		<div class="rt_header"></div>
+					<!-- //header-ends -->
+						<div class="outter-wp">
+								<!--custom-widgets-->
+							<div class="custom-widgets">
+							   <div class="row-one">
+									<div class="col-md-3 widget">
+										<div class="stats-left ">
+											<h5>Today</h5>
+											<h4>Extracted Log</h4>
+										</div>
+										<div class="stats-right">
+											<label id="chart_qty">90</label>
+										</div>
+										<div class="clearfix"> </div>	
+									</div>
+									<div class="col-md-3 widget states-mdl">
+										<div class="stats-left">
+											<h5>Today</h5>
+											<h4>Visitors</h4>
+										</div>
+										<div class="stats-right">
+											<label> 185</label>
+										</div>
+										<div class="clearfix"> </div>	
+									</div>
+									<div class="col-md-3 widget states-thrd">
+										<div class="stats-left">
+											<h5>Today</h5>
+											<h4>Tasks</h4>
+										</div>
+										<div class="stats-right">
+											<label>2</label>
+										</div>
+										<div class="clearfix"> </div>	
+									</div>
+									<div class="col-md-3 widget states-last">
+										<div class="stats-left">
+											<h5>Today</h5>
+											<h4>Alerts</h4>
+										</div>
+										<div class="stats-right">
+											<label>0</label>
+										</div>
+										<div class="clearfix"> </div>	
+									</div>
+									<div class="clearfix"> </div>	
+								</div>
+							</div>
+												<!--//custom-widgets-->
+												<!--/candile-->
+
+
+							<!-- AMS Chart  -->
+
+							<div class=".container-fluid">
+
+								<div class="row" style="margin-top: 20px; background-color: #f4f4f4;  margin-left: 2px;width: 99.9%;">
+									<div class="col-md-1" style="padding:0px;">
+										<select  id="itemselectgp" class="form-control" style="font-size: 12px;" title ="Please select your W/C Group.">
+											<option selected="selected" value="0"></option>
+										</select>
+										
+									</div>
+									
+									<div class="col-md-1"  style="padding:0px;">
+										
+										<select  id="itemselectwc" class="form-control" style="font-size:12px;" title ="Please select your W/C name.">
+											<option selected="selected" value="0"> </option>
+										</select>		
+												
+								
+										
+									</div>
+								
+									<div class="col-md-1"  style="padding:0px;">
+											<select id="itemselectpn" class="form-control" style="font-size: 7px;" title ="Please select your PN.">
+											</select>
+
+									</div>
+
+									<div class="col-md-1"  style="padding:0px;">
+										<select id="itemselecttester" class="form-control" style="font-size: 7px;" title ="Please select your tester.default is all">
+											<option selected="selected" value="0">ALL</option>
+										</select>
+
+									</div>
+
+																				
+							
+									<div class="col-md-1"  style="padding:0px;">
+										<select id="itemselect" class="form-control" style="font-size: 7px; " title ="Please select your test item.">
+										</select>
+										
+									</div>
+								
+									<div class="col-md-2" style="padding:0px;" >
+										<div class="form-group">
+											<div class='input-group date' id='datetimepicker6'>
+												<input type='text'  id="inputstarttime" class="form-control" />
+												<span class="input-group-addon"> Start Time <span class="glyphicon glyphicon-calendar"></span>
+												</span>
+											</div>
+										</div>
+
+									</div>
+									<div class="col-md-2" style="padding:0px;">
+										
+											<div class="form-group">
+												<div class='input-group date' id='datetimepicker7'>
+													<input type='text' id="inputendtime" class="form-control" />
+													<span class="input-group-addon">End Time <span class="glyphicon glyphicon-calendar"></span>
+													</span>
+												</div>
+											</div>
+									</div>
+
+
+
+									<div class="col-md-1" style="padding:0px;">
+
+										<!-- Stack the columns on mobile by making one full-width and the other half-width -->
+										<div class="row">
+											<div class="col-md-7" ><p class="fresh_class"><span id="refresh_datatime"></span></p></div>
+											<div class="col-md-5" style="padding:0px;">
+											
+											<div class="row btn_mk" >
+												<div class="col-md-5" style="padding:0px;"><button id = "stop_btn" ><em class="glyphicon glyphicon-stop "></em></button></div>
+												<div class="col-md-7" style="padding:0px; margin-left:0px;"><button id = "resume_btn" ><em class="glyphicon glyphicon-pause"></em></button></div>
+								
+											</div>
+											
+											</div>
+										</div>
+
+									</div>
+
+									<div class="col-md-1" style="padding:0px;">	
+											<button type="button" onclick="chart_update();" class="btn btn-danger"  style="margin-top:0px; width: 100%;height: 3rem;" ><i class="fa fa-crosshairs"></i> Update</button>
+											
+									</div>
+									
+									<div class="col-md-1 ">
+									<button type="button" id="download_button" onclick="exportreport();" style="margin-top:0px; width: 100%;height: 3rem;" class="btn btn-success"><i class="fa fa-download"></i> Export</button>
+
+								   </div>
+
+									<!-- bigdata chart  -->
+
+									<div id="main" class="col-md-12" style="height:450px;background-color: #f3f3f3; margin-top: -1.75rem;"></div>
+									
+								  </div>
+
+
+							</div>
+
+
+				
+			<!--/charts-->
+			<div class="charts">
+			  <div class="chrt-inner">
+			    <div class="chrt-bars">
+					<div class="col-md-6 chrt-two">
+					 <h3 class="sub-tittle">DIMM EXtracted Log Bar Chart </h3>
+						<div id="chart2"></div>
+					</div>
+						<div class="col-md-6 chrt-three">
+						<h3 class="sub-tittle">Normal Analysis Chart (90 Samples) </h3>
+							<div id="normalchart"></div>	
+									
+						
+								
+							</div>
+							<div class="clearfix"> </div>
+					</div>	
+						
+						
+					
+					<!--/float-charts-->
+					<div class="pie">
+							<div class="col-md-6 chrt-two">
+								<div class="row">
+									<div class="col-md-6"><h3 class="sub-tittle">CPK Chart By PN  </h3></div>
+									<div class="col-md-6">
+										
+
+										<div class="col-md-3"  style="padding:0px;">
+											
+											<label for="chart_itemselect" style="height: 48px; line-height: 48px; text-align: center;">Test Item select:</label>
+											
+										</div>									
+							
+										<div class="col-md-6"  style="padding:0px;">
+											<select id="chart_itemselect" class="form-control" style="font-size: 7px; " title ="Please select your test item.">
+												<option value="0" selected>P1_dist_cpk</option>
+												<option value="1">P2_dist_cpk</option>
+												<option value="2">P3_dist_cpk</option>
+												<option value="3">P4_dist_cpk</option>
+											</select>
+											
+										</div>
+
+
+
+									</div>
+								</div>
+							
+							<div id="chartdiv2"></div>					
+							<div class="clearfix"> </div>
+							</div>
+							<div class="col-md-6 tini-time-line">
+								<h3 class="sub-tittle">Time line </h3>
+								<ul class="timeline">
+									<li>
+										<div class="timeline-badge info"><i class="fa fa-smile-o"></i></div>
+										<div class="timeline-panel">
+										<div class="timeline-heading">
+											<h4 class="timeline-title">2023-02-10</h4>
+										</div>
+										<div class="timeline-body">
+											<p>Create Project ...</p>
+										</div>
+										</div>
+									</li>
+									
+									<li>
+										<div class="timeline-badge primary"><i class="fa fa-star-o"></i></div>
+										<div class="timeline-panel">
+										<div class="timeline-heading">
+											<h4 class="timeline-title">2023-02-15</h4>
+										</div>
+										<div class="timeline-body">
+											<p>Build database ...</p>
+										</div>
+										</div>
+									</li>
+									
+									
+									
+									<li>
+										<div class="timeline-badge danger"><i class="fa fa-times-circle-o"></i></div>
+										<div class="timeline-panel">
+										<div class="timeline-heading">
+											<h4 class="timeline-title">2023-03-20</h4>
+										</div>
+										<div class="timeline-body">
+											<p>Web GUI design ...</p>
+										</div>
+										</div>
+									</li>
+									
+									<li>
+										<div class="timeline-badge success"><i class="fa fa-check-circle-o"></i></div>
+										<div class="timeline-panel">
+										<div class="timeline-heading">
+											<h4 class="timeline-title">2023-04-10</h4>
+										</div>
+										<div class="timeline-body">
+											<p>API ...</p>
+										</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+					</div>
+
+									<!--//bottom-grids-->
+									
+									</div>
+									<!--/charts-inner-->
+									</div>
+										<!--//outer-wp-->
+									</div>
+									 <!--footer section start-->
+										<div class="footerload"></div>
+									<!--footer section end-->
+								</div>
+							</div>
+				<!--//content-inner-->
+			<!--/sidebar-menu-->
+		<div class="sidebarLoad"></div>
+				
+		<div class="clearfix"></div>		
+							</div>
+
+<!--js -->
+<!-- <link rel="stylesheet" href="/static/css/vroom.css">
+<script type="text/javascript" src="/static/js/vroom.js"></script> -->
+<script type="text/javascript" src="/static/js/TweenLite.min.js"></script>
+<!-- <script type="text/javascript" src="/static/js/CSSPlugin.min.js"></script> -->
+<script src="/static/js/jquery.nicescroll.js"></script>
+
+<!-- echarts -->
+<script type="text/javascript" src="/static/js/charts/echarts.min.js"></script>
+<!-- <script type="text/javascript" src="/static/js/charts/echarts-gl.min.js"></script> -->
+<script type="text/javascript" src="/static/js/charts/ecStat.min.js"></script>
+<script type="text/javascript" src="/static/js/charts/dataTool.min.js"></script>
+<script type="text/javascript" src="/static/js/charts/china.js"></script>
+<script type="text/javascript" src="/static/js/charts/world.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+   <script src="/static/js/bootstrap.min.js"></script>
+   <script src="/static/js/scripts.js"></script>
+   <script type="text/javascript" src="/static/js/base.js"></script>
+   <script src="/static/js/charts/moment-with-locales.js"></script>
+   <script  src="/static/js/charts/bootstrap-datetimepicker.js"></script>
+
+   <script  src="/static/js/charts/mycharts.js"></script>
+  
+
+
+<style>
+.copyrights{text-indent:-9999px;height:0;line-height:0;font-size:0;overflow:hidden;}
+</style>
+
+</body>
+</html>
