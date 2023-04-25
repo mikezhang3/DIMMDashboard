@@ -1635,3 +1635,24 @@ class BIG_DATA(object):
 
 
         return temp_list
+    
+    def Get_dimm_excel_data(self,tester,start_time,end_time):
+        """_summary_
+
+        Args:
+            tester (_type_): _description_
+            start_time (_type_): _description_
+            end_time (_type_): _description_
+        """
+        cursor = self.odbc.cursor()
+        temp_list = []
+        command = """ [Bigdata_limitation].[dbo].[dimm_exceldownload] '%s','%s','%s' """ % (tester,start_time,end_time)
+        cursor.execute(command)
+        rows = cursor.fetchall()
+        cursor.close()
+        [temp_list.append(list(row)) for row in rows]
+        # temp_list = sorted(temp_list,key=lambda x:x[0],reverse=False)
+        return temp_list
+        
+        
+       

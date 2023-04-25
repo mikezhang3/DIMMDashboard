@@ -5,101 +5,17 @@ import pandas as pd
 from scripts.models import BIG_DATA
 from . import api
 from scripts.utils.response_code import RET
+from scripts.utils.commons import login_required
 import json,os,xlsxwriter,sys
 from io import BytesIO
 import flask_excel as excel
+from urllib.parse import quote
 import random
 import statistics
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 # print (base_dir)
 sys.path.append(base_dir)
-
-
-# 定义HTMLParser的子类,用以复写HTMLParser中的方法
-class EXCEL_WRITE(object):
-    excel_file_save = ''
-    csv_file_save = ''
-    # 构造方法,定义data数组用来存储html中的数据
-    def __init__(self):
-        super(self.__class__,self).__init__()
-
-    def write_excel(self,test_name_list,test_limit_list,tester_list,operator_list ,SN_list , Total_result_list ,fail_item_list ,test_cell_list,test_start_time_list,all_test_values_list):
-        """
-        This function for excel write .
-        :param test_valus: test data
-        :param title_total_list: all of test info
-        :param passed_test_item: passed test item
-        :param passed_limit: passed limit
-        :return:
-        """
-
-
-        # time_now = datetime.strftime(datetime.now(),"%Y-%m-%d %H-%M-%S")
-        # time_date = datetime.strftime(datetime.now(), "%Y-%m-%d")
-        # if not os.path.exists(r'%s\reports\%s'%(base_dir,time_date)):
-        #     os.makedirs(r'%s\reports\%s'%(base_dir,time_date), mode=0o777)
-        # file_path1 = r'%s\reports\%s\excel_%s.xlsx' % (base_dir,time_date, time_now)
-        # csv_path = r'%s\reports\%s\excel_%s.csv' % (base_dir,time_date, time_now)
-        # EXCEL_WRITE.excel_file_save = file_path1
-        # EXCEL_WRITE.csv_file_save = csv_path
-
-        output = BytesIO()
-        workbook = xlsxwriter.Workbook(output)
-        worksheet = workbook.add_worksheet('html_to_excel')  # 新建sheet（sheet的名称为"AgingWIPs"）
-        workfomat = workbook.add_format(dict(bold=True, border=1, align='center', valign='vcenter'))
-        workfomat1 = workbook.add_format(dict(bold=True, border=1, align='center', valign='vcenter'))
-        workfomat2 = workbook.add_format(dict(bold=True, border=1, align='left'))
-        workfomat3 = workbook.add_format(dict(bold=True, border=1, align='center', valign='vcenter'))
-        # headings0 = ['', '', '','','','','Test Group']  # 设置表头
-        # headings = ['', '', '','','','','Test Name']  # 设置表头
-        # headings2 = ['', '', '','','','','Low Limit']  # 设置表头
-        # headings3 = ['Tester', 'Operator', 'Test Result', 'Test Cell','Fail Item','Test Start Time','Upper Limit']  # 设置表
-        # 列写入
-        headings0 = ['', '', 'Tester']  # 设置表头
-        headings = ['', '',  'Operator']  # 设置表头1
-        headings1 = ['', '',   'Test Result']  # 设置表头2
-        headings2 = ['', '',  'Test Cell']  # 设置表头3
-        headings3 = ['', '',  'Fail Item']  # 设置表头4
-        headings4 = ['', '',  'Test Start Time']  # 设置表头5
-        headings5 = ['Test Name', 'Lower Limit', 'Upper Limit']  # 设置表头6
-
-        # create fail item list
-        # print(test_values) Tester (0)
-        headings0.extend(tester_list)
-        headings.extend(operator_list)
-        headings1.extend(Total_result_list)
-        headings2.extend(test_cell_list)
-        headings3.extend(fail_item_list)
-        headings4.extend(test_start_time_list)
-        headings5.extend(SN_list)
-        worksheet.write_column('A1', headings0, cell_format=workfomat1)
-        worksheet.write_column('B1', headings, cell_format=workfomat1)
-        worksheet.write_column('D1', headings2, cell_format=workfomat1) # cell
-        worksheet.write_column('E1', headings3, cell_format=workfomat1) # fail item
-        worksheet.write_column('F1', headings4, cell_format=workfomat1) # test start time
-        worksheet.write_column('G1', headings5, cell_format=workfomat1) # sn list
-        worksheet.write_column('C1', headings1, cell_format=workfomat) # test result
-
-        new_passed_limit_low = [i[0] for i in test_limit_list]
-        new_passed_limit_upper = [i[1] for i in test_limit_list]
-
-        worksheet.write_row('H1', test_name_list, cell_format=workfomat2)
-        worksheet.write_row('H2', new_passed_limit_low, cell_format=workfomat2)
-        worksheet.write_row('H3', new_passed_limit_upper, cell_format=workfomat2)
-
-        for index,i in enumerate(all_test_values_list,4):
-            worksheet.write_row('H%s' % index, i, cell_format=workfomat3)
-            # print('i value is:', i)
-
-        print('Finished the work ! handle task is:%s\n'%len(all_test_values_list))
-        workbook.close()
-        output.seek(0)
-        return output
-
-        # data = pd.read_excel(file_path1, 'html_to_excel', index_col=0) # read excel
-        # data.to_csv(csv_path, encoding='utf-8')
-
 
 
 class Time_convert(object):
@@ -472,3 +388,116 @@ def Get_cpkchart():
         current_app.logger.error(e)
     return resp_json, 200, {"Content-Type": "application/json"}
     
+
+
+
+@api.route("/dimm/Download_excel",methods = ["GET"])
+@login_required
+def download_applyrecords():
+
+
+    g_name = request.args.get('group_name','')
+    wc_name = request.args.get('workcell','')
+    pn = request.args.get('part_num','')
+    tester = request.args.get('tester','')
+    start_time = request.args.get('starttime','')
+    end_time = request.args.get('endtime','')
+    
+    
+    print('start time is:',start_time)
+    print('end time is:',end_time)
+    option = request.args.get('download','NO')
+    time_app = Time_convert()
+    try:
+        start_time = time_app.time_covert(start_time) 
+        end_time = time_app.time_covert(end_time) 
+    except Exception as e:
+        print(e)
+        return jsonify(errno=RET.PARAMERR, errmsg="DateTime Format Error.")
+    print('wc name is:{}'.format(wc_name))
+    
+    
+    
+    print('tester is:',tester)
+    big_app = BIG_DATA()
+    dimm_data = big_app.Get_dimm_excel_data(tester,start_time,end_time)
+    print('dimm len is:',len(dimm_data))
+    if len(dimm_data) < 1:
+        return  jsonify(errno=RET.NODATA,errmsg='No data in database.')
+
+
+    if option == "YES":
+        
+        time_str = datetime.strftime(datetime.now(),'%Y_%m_%d_%H%M%S')
+        file_name = quote(r'dimm_rec_%s_%s.xlsx' % (wc_name,time_str))
+        EXPORT_TITLE = "Dimm test records\nDIMM 测试记录"
+        spare_th = ['id','Customer','Customer_id','Upload_Datetime','Tester','Operator','PN','SN','Test_Result','Test_Cell','Test_Start_Time','Test_End_Time','Test_Mode','P1_dist','P2_dist','P3_dist','P4_dist','Script','Script_Hash','Log_path','Remark']
+
+        output = BytesIO()
+        workbook = xlsxwriter.Workbook(output, {"in_memory": True})  # new create xlsx file
+        fmt = dict(
+                    border=1,
+                    align="center",
+                    text_wrap=True,
+                    valign="vcenter",
+                    font_size=11
+                )
+        fmt_blue = dict(
+                    border=1,
+                    align="center",
+                    text_wrap=True,
+                    valign="vcenter",
+                    font_size=11,
+                    font_color= "#00b0f0"
+                )
+
+
+        fmt1 = dict(
+                    align="left",
+                    text_wrap=False,
+                    valign="vcenter",
+                    font_size=9,
+                    
+                )
+
+
+        fmt_blue1 = dict(
+                    align="left",
+                    text_wrap=False,
+                    valign="vcenter",
+                    font_size=9,
+                    font_color= "#00b0f0"
+                )
+        
+        
+        normal = workbook.add_format(fmt)
+        normal_blue = workbook.add_format(fmt_blue)
+        normal_blue1 = workbook.add_format(fmt_blue1)
+        normal1 = workbook.add_format(fmt1)
+
+        bold = workbook.add_format(dict(fmt, bold=True))
+        ws = workbook.add_worksheet('Dimm_Values') 
+        ws.merge_range("A1:U1", EXPORT_TITLE, bold)
+        ws.set_row(0, 44)
+        # write title as below 
+        [ws.write(1,index,i,normal) for index,i in enumerate(spare_th,0) if index not in [2,3,4,5]]
+        [ws.write(1,index,i,normal_blue) for index,i in enumerate(spare_th,0) if index in [2,3,4,5]]
+        [ws.set_column(i, i, 20) for i in range(1,9,1)]
+        [ws.set_column(i, i, 20) for i in range(9,17,1)]
+        [ws.set_column(i, i, 40) for i in range(17,20,1)]
+        # get workcell data from db .
+
+        ws.write_row('A2',spare_th,bold)
+        for index,dimm_data_s in enumerate( dimm_data,3):
+            ws.write_row('A%s' %index, dimm_data_s,normal)
+
+        workbook.close()
+        output.seek(0)
+        print(file_name)
+        # rv = send_file(output,as_attachment =True, download_name = file_name)
+        rv = send_file(output,as_attachment=True,  attachment_filename = file_name)
+        rv.headers['Content-Disposition']+=";filename*=utf-8''{}".format(file_name)
+        return rv 
+    else:
+        return jsonify(errno=RET.OK, errmsg="Got the data ,will download the excel .")
+
