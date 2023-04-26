@@ -394,18 +394,13 @@ def Get_cpkchart():
 @api.route("/dimm/Download_excel",methods = ["GET"])
 @login_required
 def download_applyrecords():
-
-
+    
     g_name = request.args.get('group_name','')
     wc_name = request.args.get('workcell','')
     pn = request.args.get('part_num','')
     tester = request.args.get('tester','')
     start_time = request.args.get('starttime','')
     end_time = request.args.get('endtime','')
-    
-    
-    print('start time is:',start_time)
-    print('end time is:',end_time)
     option = request.args.get('download','NO')
     time_app = Time_convert()
     try:
@@ -414,14 +409,10 @@ def download_applyrecords():
     except Exception as e:
         print(e)
         return jsonify(errno=RET.PARAMERR, errmsg="DateTime Format Error.")
-    print('wc name is:{}'.format(wc_name))
     
-    
-    
-    print('tester is:',tester)
     big_app = BIG_DATA()
     dimm_data = big_app.Get_dimm_excel_data(tester,start_time,end_time)
-    print('dimm len is:',len(dimm_data))
+
     if len(dimm_data) < 1:
         return  jsonify(errno=RET.NODATA,errmsg='No data in database.')
 
