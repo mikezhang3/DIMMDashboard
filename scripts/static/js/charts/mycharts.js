@@ -405,7 +405,12 @@ $.ajax({
               var timelist = resp.data.time_list
               var test_item_name = resp.data.test_item_name
               var test_out_limit_list = resp.data.out_limit_list
+              var test_value_list = resp.data.test_value_list
+              var cpk_value = resp.data.cpk
               Echartsdisplay(testdata,testlimit,timelist,test_item_name,test_out_limit_list)
+              $('#nomal_bar_title').html(item_value_pn +'-' + item_value + ':Normal Analysis Chart (90 Samples)')
+              normalcharts(test_value_list,testlimit,cpk_value)
+             
         }
 
     }
@@ -420,12 +425,12 @@ function default_chart(){
         group_name:"IMED",
         workcell:"Medtronic",
         wc_id:"83",
-        part_num:"MD7006076-008-A-R",
+        part_num:"MD7006076-009-2-R",
         tester:"ALL",
         defalut:"YES",
         starttime:"03-07-2023 00:12:00",
         endtime:"03-11-2023 00:12:00",
-        testitem:"p1_dist"
+        testitem:"p3_dist"
     }
     $.ajax({
         url: "/api/v0.1/bigdata/Get_test_data",
@@ -448,6 +453,7 @@ function default_chart(){
                 var test_value_list = resp.data.test_value_list
                 var cpk_value = resp.data.cpk
                 Echartsdisplay(testdata,testlimit,timelist,test_item_name,test_out_limit_list)
+                $('#nomal_bar_title').html(params.part_num +'-----' + params.testitem + '---Normal Analysis Chart (90 Samples)')
                 normalcharts(test_value_list,testlimit,cpk_value)
             }
 

@@ -63,8 +63,8 @@ class Tester_Fixture(object):
     :param N/A
     return : one obj
     """
+    instance =None
     def __new__(cls):
-        cls.instance =None
         if cls.instance is None:
             obj = super(__class__,cls).__new__(cls)
             # 获取当前系统平台
@@ -75,7 +75,7 @@ class Tester_Fixture(object):
                 sql_name = '{ODBC Driver 17 for SQL Server}'
             else:
                 print("Can not running on an other system.")
-            obj.odbc = pyodbc.connect('DRIVER=%s;SERVER=imedtdbackup;DATABASE=IMED_TESTERS;UID=sa;PWD=J@abil+123'%sql_name)
+            obj.odbc = pyodbc.connect('DRIVER=%s;SERVER=imedtdbackup;DATABASE=IMED_TESTERS;UID=sa;PWD=J@abil+123;timeout=60'%sql_name)
             cls.instance = obj
         return cls.instance
 
@@ -559,7 +559,7 @@ class QueryResult(object):
                 sql_name = '{ODBC Driver 17 for SQL Server}'
             else:
                 print("Can not running on an other system.")
-            obj.odbc = pyodbc.connect('DRIVER=%s;SERVER=cnshah0tesql01;DATABASE=dwtt;UID=teuser;PWD=te@shanghai'%sql_name)
+            obj.odbc = pyodbc.connect('DRIVER=%s;SERVER=cnshah0tesql01;DATABASE=dwtt;UID=teuser;PWD=te@shanghai;timeout=60'%sql_name)
             cls.instance = obj
         return cls.instance
     def Get_WIPID(self,sn):
@@ -1357,7 +1357,7 @@ class BIG_DATA(object):
     :param N/A
     return : one obj
     """
-    work_cell_dict = {}
+    
     instance =None
     def __new__(cls):
         if cls.instance is None:
@@ -1370,7 +1370,7 @@ class BIG_DATA(object):
                 sql_name = '{ODBC Driver 17 for SQL Server}'
             else:
                 print("Can not running on an other system.")
-            obj.odbc = pyodbc.connect('DRIVER=%s;SERVER=imedtedatabase;DATABASE=Bigdata_limitation;UID=sa;PWD=J!abil+12345;Mars_Connection=yes'%sql_name)
+            obj.odbc = pyodbc.connect('DRIVER=%s;SERVER=imedtedatabase;DATABASE=Bigdata_limitation;UID=dimmuser;PWD=dimmuser123;Mars_Connection=yes;timeout=60'%sql_name)
             cls.instance = obj
         return cls.instance
     
